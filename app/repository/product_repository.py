@@ -18,7 +18,7 @@ class ProductRepository:
         for result in results:
             product = Product(result.title, result.description, result.price, result.seller_id)
             product.id = result.id
-            products.append()
+            products.append(product)
         return products
 
     def delete_product_by_id(self, product_id):
