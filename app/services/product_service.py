@@ -41,3 +41,8 @@ class ProductService:
         if product_id is None:
             raise ValueError("Invalid product ID")
         self.product_repository.delete_product_by_id(product_id)
+
+    def get_product(self, product_id):
+        if product_id is None:
+            raise ValueError("Invalid product ID")
+        return self.product_repository.get_product_by_id(product_id)

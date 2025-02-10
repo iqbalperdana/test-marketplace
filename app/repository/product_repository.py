@@ -31,3 +31,12 @@ class ProductRepository:
         if result:
             return Product(result.title, result.description, result.price, result.seller_id)
         return None
+    
+    def get_product_by_id(self, product_id):
+        query = text(f"SELECT * FROM products WHERE id = {product_id}")
+        result = self.db_session.execute(query).fetchone()
+        if result:
+            product = Product(result.title, result.description, result.price, result.seller_id)
+            product.id = result.id
+            return product
+        return None

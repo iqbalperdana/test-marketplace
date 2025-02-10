@@ -34,3 +34,22 @@ def delete_product_handler(product_service: ProductService, product_id: int):
         return jsonify({"message": "Product deleted successfully"}), 200
     except Exception as e:
         return jsonify({"error": "Error deleting product"}), 400
+    
+def get_product_handler(product_service: ProductService, product_id: int):
+    if not product_id:
+        return jsonify({"error": "Invalid product ID"}), 400
+
+    try:
+        product = product_service.get_product(product_id)
+        if product:
+            return jsonify({
+                "id": product.id,
+                "title": product.title,
+                "description": product.description,
+                "price": product.price,
+                "seller_id": product.seller_id
+            }), 200
+        else:
+            return jsonify({"error": "Product not found"}), 404
+    except Exception as e:
+        return jsonify({"error": "Error fetching product"}), 400
