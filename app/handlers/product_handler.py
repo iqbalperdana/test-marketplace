@@ -17,6 +17,7 @@ def add_product_handler(product_service: ProductService):
 def list_products_handler(product_service: ProductService):
     products = product_service.list_products()
     return jsonify([{
+        "id": product.id,
         "title": product.title,
         "description": product.description,
         "price": product.price,
@@ -24,12 +25,31 @@ def list_products_handler(product_service: ProductService):
     } for product in products]), 200
 
 
-def delete_product_handler(product_service: ProductService):
-    if not request.get_json() or 'product_id' not in request.get_json():
-        return jsonify({"error": "Invalid request"}), 400
-    product_id = request.get_json()['product_id']
+def delete_product_handler(product_service: ProductService, product_id: int):
+    if not product_id:
+        return jsonify({"error": "Invalid product ID"}), 400
+    
     try:
         product_service.delete_product(product_id)
         return jsonify({"message": "Product deleted successfully"}), 200
     except Exception as e:
         return jsonify({"error": "Error deleting product"}), 400
+    
+def get_product_handler(product_service: ProductService, product_id: int):
+    if not product_id:
+        return jsonify({"error": "Invalid product ID"}), 400
+
+    try:
+        product = product_service.get_product(product_id)
+        if product:
+            return jsonify({
+                "id": product.id,
+                "title": product.title,
+                "description": product.description,
+                "price": product.price,
+                "seller_id": product.seller_id
+            }), 200
+        else:
+            return jsonify({"error": "Product not found"}), 404
+    except Exception as e:
+        return jsonify({"error": "Error fetching product"}), 400
