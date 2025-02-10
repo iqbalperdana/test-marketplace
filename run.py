@@ -1,6 +1,6 @@
 from main import app, db
 from app.handlers.user_handler import register_user_handler, login_user_handler
-from app.handlers.product_handler import add_product_handler, list_products_handler
+from app.handlers.product_handler import add_product_handler, list_products_handler, delete_product_handler
 from app.repository.user_repository import UserRepository
 from app.repository.product_repository import ProductRepository
 from app.services.user_service import UserService
@@ -30,6 +30,10 @@ def add_product():
 @app.route('/products', methods=['GET'])
 def list_products():
     return list_products_handler(product_service)
+
+@app.route('/products/<int:product_id>', methods=['DELETE'])
+def delete_product(product_id):
+    return delete_product_handler(product_service, product_id)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5001)
