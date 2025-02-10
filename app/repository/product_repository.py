@@ -14,7 +14,12 @@ class ProductRepository:
 
     def get_all_products(self):
         results = self.db_session.execute(text("SELECT * FROM products")).fetchall()
-        return [Product(result.title, result.description, result.price, result.seller_id) for result in results]
+        products = []
+        for result in results:
+            product = Product(result.title, result.description, result.price, result.seller_id)
+            product.id = result.id
+            products.append()
+        return products
 
     def delete_product_by_id(self, product_id):
         self.db_session.execute(text(f"DELETE FROM products WHERE id = {product_id}"))
