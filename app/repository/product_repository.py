@@ -19,3 +19,10 @@ class ProductRepository:
     def delete_product_by_id(self, product_id):
         self.db_session.execute(text(f"DELETE FROM products WHERE id = {product_id}"))
         self.db_session.commit()
+
+    def get_product_by_title_and_seller(self, title, seller_id):
+        query = text(f"SELECT * FROM products WHERE title = '{title}' AND seller_id = {seller_id}")
+        result = self.db_session.execute(query).fetchone()
+        if result:
+            return Product(result.title, result.description, result.price, result.seller_id)
+        return None
