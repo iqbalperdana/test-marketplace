@@ -30,6 +30,6 @@ def login_user_handler(user_service: UserService):
     try:
         user = user_service.login_user(data['username'], data['password'])
     except ValueError as e:
-        return jsonify({"error": str(e)}), 400
+        return jsonify({"error": str(e)}), 401
     
     return jsonify({"message": "Login successful", "username": user.username}), 200

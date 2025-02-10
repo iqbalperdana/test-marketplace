@@ -17,6 +17,7 @@ def add_product_handler(product_service: ProductService):
 def list_products_handler(product_service: ProductService):
     products = product_service.list_products()
     return jsonify([{
+        "id"  : product.id,
         "title": product.title,
         "description": product.description,
         "price": product.price,
