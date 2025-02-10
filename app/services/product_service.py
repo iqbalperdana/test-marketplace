@@ -27,6 +27,10 @@ class ProductService:
         if seller_id is None:
             raise ValueError("Seller ID is required.")
         
+        is_product_exist = self.product_repository.get_product_by_title_and_seller(title, seller_id)
+        if is_product_exist:
+            raise ValueError("Product already exists for the seller.")
+        
         self.product_repository.add_product(product)
 
     def list_products(self):
