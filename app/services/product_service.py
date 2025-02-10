@@ -11,6 +11,9 @@ class ProductService:
         if title is None or title.strip() == "":
             raise ValueError("Product title cannot be empty.")
         
+        if len(title) > 50:
+            raise ValueError("Product title cannot exceed 50 characters.")
+        
         blacklist = ["banned", "illegal", "restricted"]
         if any(banned_word in title.lower() for banned_word in blacklist):
             raise ValueError("Product title contains restricted words.")
@@ -20,6 +23,9 @@ class ProductService:
 
         if description and len(description) > 255:
             raise ValueError("Product description cannot exceed 255 characters.")
+        
+        if seller_id is None:
+            raise ValueError("Seller ID is required.")
 
         self.product_repository.add_product(product)
 
