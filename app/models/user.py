@@ -12,6 +12,3 @@ class User(db.Model):
         self.username = username
         self.email = email
         self.password = password
-
-    def check_password(self, password):
-        return self.password == password
